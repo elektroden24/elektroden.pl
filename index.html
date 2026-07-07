@@ -89,7 +89,7 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/img/hero-poster.jpg" id="heroVideo">
     <source src="assets/video/hero-dashboard.mp4" type="video/mp4">
   </video>
   <div class="wrap hero-inner">
@@ -357,6 +357,25 @@
 </a>
 
 <script>
+// hero video: force play (iOS Low Power Mode blocks autoplay until user interaction)
+(function(){
+  var v = document.getElementById('heroVideo');
+  if (!v) return;
+  v.muted = true; // property, not just attribute — required by some mobile browsers
+  function tryPlay(){
+    if (!v.paused) return;
+    var p = v.play();
+    if (p && p.catch) p.catch(function(){});
+  }
+  tryPlay();
+  ['touchstart','click','scroll'].forEach(function(ev){
+    window.addEventListener(ev, function once(){
+      window.removeEventListener(ev, once);
+      tryPlay();
+    }, { passive: true });
+  });
+})();
+
 // highlight today's hours
 (function(){
   var d = new Date().getDay();
