@@ -109,8 +109,8 @@ h1, h2, h3, h4 {
 .btn-wa:hover { background: var(--wa-hover); box-shadow: 0 12px 34px -8px rgba(37,211,102,.75); }
 
 .btn-tel {
-  background: transparent; color: var(--text);
-  border-color: var(--line-2);
+  background: rgba(255,255,255,.07); color: #fff;
+  border-color: rgba(255,255,255,.38);
 }
 .btn-tel:hover { border-color: var(--acc); color: var(--acc); box-shadow: 0 0 0 1px var(--acc-glow); }
 
@@ -147,7 +147,7 @@ h1, h2, h3, h4 {
 .hero::after {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(90deg, rgba(10,13,18,.94) 0%, rgba(10,13,18,.82) 42%, rgba(10,13,18,.5) 100%),
+    linear-gradient(90deg, rgba(10,13,18,.86) 0%, rgba(10,13,18,.7) 42%, rgba(10,13,18,.38) 100%),
     linear-gradient(0deg, var(--bg) 2%, transparent 32%);
 }
 .hero-inner { padding-block: clamp(3rem, 9vh, 6rem); max-width: 760px; }
@@ -160,7 +160,8 @@ h1, h2, h3, h4 {
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero p.sub { font-size: clamp(1.05rem, 2vw, 1.22rem); color: var(--text-dim); max-width: 620px; margin-bottom: 2rem; }
-.hero-cta { display: flex; flex-wrap: wrap; gap: 1rem; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.hero-cta .cta-or { color: var(--text-dim); font-size: .95rem; }
 .hero-rating { margin-top: 1.7rem; display: flex; align-items: center; gap: .7rem; font-size: .95rem; color: var(--text-dim); }
 .hero-rating .stars { color: var(--gold); letter-spacing: .1em; font-size: 1.05rem; }
 .hero-rating b { color: var(--text); font-weight: 600; }
@@ -295,7 +296,7 @@ section { position: relative; }
   .nav, .head-tel { display: none; }
   .burger { display: block; }
   .head-cta .btn-wa { padding: .7rem 1rem; }
-  .hero::after { background: linear-gradient(0deg, var(--bg) 8%, rgba(10,13,18,.72) 60%, rgba(10,13,18,.55) 100%); }
+  .hero::after { background: linear-gradient(0deg, var(--bg) 8%, rgba(10,13,18,.6) 60%, rgba(10,13,18,.42) 100%); }
   .sticky-wa {
     display: flex; position: fixed; bottom: 18px; right: 18px; z-index: 60;
     width: 60px; height: 60px; border-radius: 50%;
