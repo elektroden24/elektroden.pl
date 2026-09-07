@@ -32,4 +32,12 @@
     <loc>https://elektroden.pl/kontakt/</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://elektroden.pl/realizacje/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://elektroden.pl/polityka-prywatnosci/</loc>
+    <priority>0.2</priority>
+  </url>
 </urlset>

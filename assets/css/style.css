@@ -448,3 +448,34 @@ section { position: relative; }
   .svc-layout { grid-template-columns: 1fr; }
   .svc-aside { position: static; }
 }
+
+/* ============================================================
+   Tabele w treści — używane na stronie polityki prywatności.
+   Na wąskim ekranie tabela przewija się w poziomie wewnątrz .prose,
+   sama strona nigdy nie jedzie na boki.
+   ============================================================ */
+.prose .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: var(--rad-sm); background: var(--surface); }
+.prose table { width: 100%; border-collapse: collapse; font-size: .94rem; min-width: 460px; }
+.prose thead th { font-family: var(--font-disp); font-weight: 600; font-size: .82rem; letter-spacing: .04em; text-transform: uppercase; color: var(--text-mut); text-align: left; padding: .85rem 1rem; border-bottom: 1px solid var(--line-2); white-space: nowrap; }
+.prose tbody td { padding: .85rem 1rem; color: var(--text-dim); border-bottom: 1px solid var(--line); vertical-align: top; }
+.prose tbody tr:last-child td { border-bottom: 0; }
+.prose tbody tr:hover td { background: var(--surface-2); }
+.prose tbody td strong { color: var(--text); }
+
+/* Blok wyróżniony — sekcja o nagrywaniu rozmów */
+.prose .callout { border: 1px solid var(--line-2); border-left: 3px solid var(--acc); border-radius: var(--rad-sm); background: var(--surface); padding: 1.3rem 1.4rem; }
+.prose .callout > * + * { margin-top: .8rem; }
+.prose .callout h3 { margin-top: 0; }
+
+.prose ul, .prose ol { padding-left: 1.2rem; color: var(--text-dim); }
+.prose li + li { margin-top: .5rem; }
+.prose .meta-note { font-size: .88rem; color: var(--text-mut); }
+
+/* Formularz kontaktowy — komunikaty i pułapka na boty */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-msg { margin-top: .9rem; font-size: .9rem; padding: .75rem .9rem; border-radius: var(--rad-sm); border: 1px solid var(--line-2); }
+.form-msg.ok { color: var(--acc); border-color: var(--acc-deep); background: rgba(33, 230, 193, .07); }
+.form-msg.err { color: var(--warn); border-color: var(--warn); background: rgba(255, 90, 82, .07); }
+.form-card button[disabled] { opacity: .6; cursor: default; }
+.field .opt { color: var(--text-mut); font-weight: 400; font-size: .82em; }
+.field .hint { display: block; margin-top: .4rem; font-size: .8rem; color: var(--text-mut); }

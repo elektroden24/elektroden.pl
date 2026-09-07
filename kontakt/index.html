@@ -7,9 +7,7 @@
 <meta name="description" content="Kontakt elektroden — Zawodzie 35, 80-726 Gdańsk. Telefon i WhatsApp +48 571 287 125. Opisz usterkę, oddzwonimy. W sytuacjach awaryjnych dojazd w Gdańsku i okolicach.">
 <link rel="canonical" href="https://elektroden.pl/kontakt/">
 <meta name="theme-color" content="#0a0d12">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/fonts.css">
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <meta property="og:title" content="Kontakt — elektroden · elektryk samochodowy Gdańsk, Zawodzie 35">
@@ -180,9 +178,9 @@
     <aside class="svc-aside">
       <div class="form-card">
         <h3>Formularz kontaktowy</h3>
-        <form onsubmit="return false;">
+        <form id="lead-form" novalidate>
           <div class="field">
-            <label for="imie">Imię</label>
+            <label for="imie">Imię <span class="opt">— opcjonalnie</span></label>
             <input type="text" id="imie" name="imie" autocomplete="name" placeholder="Jak się do Ciebie zwracać?">
           </div>
           <div class="field">
@@ -190,21 +188,26 @@
             <input type="tel" id="telefon" name="telefon" autocomplete="tel" placeholder="np. +48 500 600 700">
           </div>
           <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="np. jan@example.com">
+            <span class="hint">Zostaw telefon albo e-mail — wystarczy jedno z dwóch.</span>
+          </div>
+          <div class="field">
             <label for="auto">Marka i model</label>
             <input type="text" id="auto" name="auto" placeholder="np. VW Passat B8 2.0 TDI">
           </div>
           <div class="field">
             <label for="opis">Opis usterki</label>
-            <textarea id="opis" name="opis" placeholder="Opisz objawy: kiedy występują, co już sprawdzano..."></textarea>
+            <textarea id="opis" name="opis" required placeholder="Opisz objawy: kiedy występują, co już sprawdzano..."></textarea>
           </div>
-          <label class="rodo">
-            <input type="checkbox" name="rodo" required>
-            <span>Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na zapytanie (RODO).</span>
-          </label>
+          <!-- pułapka na boty: pole niewidoczne dla człowieka, wypełnione = odrzucamy -->
+          <div class="hp" aria-hidden="true"><label for="firma">Nie wypełniaj tego pola</label><input type="text" id="firma" name="firma" tabindex="-1" autocomplete="off"></div>
+          <p class="rodo">Twoje dane wykorzystamy wyłącznie po to, żeby odpowiedzieć na to zapytanie i umówić naprawę. Szczegóły — <a href="../polityka-prywatnosci/">polityka prywatności</a>.</p>
           <div class="field" style="margin-top:1.1rem">
-            <button type="submit" class="btn btn-tel" style="width:100%">Wyślij zapytanie</button>
+            <button type="submit" class="btn btn-tel" id="lead-submit" style="width:100%">Wyślij zapytanie</button>
           </div>
-          <p class="form-note">Formularz uruchomimy wkrótce — najszybciej odpowiemy na WhatsApp: <a href="https://wa.me/48571287125">+48 571 287 125</a>.</p>
+          <p class="form-msg" id="lead-msg" role="status" hidden></p>
+          <p class="form-note">Wolisz szybciej? Napisz na WhatsApp: <a href="https://wa.me/48571287125">+48 571 287 125</a>.</p>
         </form>
       </div>
     </aside>
@@ -272,6 +275,7 @@
         <a href="../o-nas/">O nas</a>
         <a href="index.html">Kontakt</a>
         <a href="../realizacje/">Realizacje</a>
+        <a href="../polityka-prywatnosci/">Polityka prywatności</a>
       </div>
       <div class="foot-col">
         <h4>Kontakt</h4>
@@ -305,6 +309,61 @@
     entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: .12 });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<script>
+(function () {
+  var ENDPOINT = 'https://n8n.elektroden.pl/webhook/kontakt';
+  var form = document.getElementById('lead-form');
+  if (!form) return;
+  var btn = document.getElementById('lead-submit');
+  var msg = document.getElementById('lead-msg');
+
+  function show(text, kind) {
+    msg.textContent = text;
+    msg.className = 'form-msg ' + kind;
+    msg.hidden = false;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var imie = form.imie.value.trim();
+    var telefon = form.telefon.value.trim();
+    var email = form.email.value.trim();
+    var auto = form.auto.value.trim();
+    var opis = form.opis.value.trim();
+
+    var maTelefon = telefon.replace(/\D/g, '').length >= 9;
+    var maEmail = email.indexOf('@') > 0 && email.indexOf('.', email.indexOf('@')) > 0;
+
+    if (!maTelefon && !maEmail) return show('Zostaw telefon albo e-mail — inaczej nie mamy jak odpowiedzieć.', 'err');
+    if (telefon && !maTelefon) return show('Numer telefonu wygląda na niepełny.', 'err');
+    if (email && !maEmail) return show('Adres e-mail wygląda na niepoprawny.', 'err');
+    if (opis.length < 10) return show('Opisz krótko usterkę — kilka słów wystarczy.', 'err');
+    if (form.firma.value) return;   // bot
+
+    btn.disabled = true;
+    btn.textContent = 'Wysyłam…';
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imie: imie, telefon: telefon, email: email, auto: auto, opis: opis,
+        strona: location.pathname, jezyk: navigator.language || ''
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      form.reset();
+      show('Dziękujemy — zgłoszenie przyjęte. Odezwiemy się na podany numer.', 'ok');
+      btn.textContent = 'Wysłane';
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = 'Wyślij zapytanie';
+      show('Nie udało się wysłać. Napisz na WhatsApp: +48 571 287 125.', 'err');
+    });
+  });
 })();
 </script>
 
