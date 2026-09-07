@@ -337,9 +337,10 @@
     var maTelefon = telefon.replace(/\D/g, '').length >= 9;
     var maEmail = email.indexOf('@') > 0 && email.indexOf('.', email.indexOf('@')) > 0;
 
-    if (!maTelefon && !maEmail) return show('Zostaw telefon albo e-mail — inaczej nie mamy jak odpowiedzieć.', 'err');
+    // najpierw konkretny blad w wypelnionym polu, dopiero potem ogolny brak kontaktu
     if (telefon && !maTelefon) return show('Numer telefonu wygląda na niepełny.', 'err');
     if (email && !maEmail) return show('Adres e-mail wygląda na niepoprawny.', 'err');
+    if (!maTelefon && !maEmail) return show('Zostaw telefon albo e-mail — inaczej nie mamy jak odpowiedzieć.', 'err');
     if (opis.length < 10) return show('Opisz krótko usterkę — kilka słów wystarczy.', 'err');
     if (form.firma.value) return;   // bot
 
