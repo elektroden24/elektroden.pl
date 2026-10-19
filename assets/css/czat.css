@@ -1,0 +1,182 @@
+/* Czat elektroden — przycisk, zaproszenie i okno. Fonty i część kolorów ze zmiennych strony (style.css). */
+.cz-btn, .cz-zapr, .cz-okno {
+  --cz-a1: #2af0c8;                 /* jasny akcent */
+  --cz-a2: #14b4dc;                 /* drugi koniec gradientu, jak w nagłówkach strony */
+  --cz-grad: linear-gradient(135deg, var(--cz-a1) 0%, var(--cz-a2) 100%);
+  --cz-ciemny: #062019;             /* ikona i tekst na gradiencie */
+  --cz-okno: #0f151c;
+  --cz-glowa: #161e29;
+  --cz-dymek: #1e2834;
+  --cz-linia: #283342;
+  --cz-tekst: #f1f5f9;
+  --cz-dim: #a3b0bf;
+  --cz-mut: #6f7d8c;
+  --cz-online: #22c55e;
+  font-family: var(--font, 'Inter', system-ui, sans-serif);
+}
+
+/* ---------- ikona: ciemny dymek, jasne kropki ---------- */
+.cz-btn svg .p, .cz-awatar svg .p { fill: var(--cz-ciemny); }
+.cz-btn svg .k, .cz-awatar svg .k { fill: var(--cz-a1); }
+
+/* ---------- przycisk (komputer: pigułka z napisem) ---------- */
+.cz-btn {
+  position: fixed; right: 24px; bottom: 24px; z-index: 70;
+  display: flex; align-items: center; gap: .75rem;
+  padding: .6rem 1.35rem .6rem .8rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--cz-grad); color: var(--cz-ciemny); text-align: left;
+  box-shadow: 0 16px 36px -12px rgba(20,180,220,.65), inset 0 1px 0 rgba(255,255,255,.35);
+  animation: cz-puls 2.8s ease-out infinite;
+  transition: transform .2s var(--ease, ease), filter .2s;
+}
+.cz-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.cz-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.cz-btn-ikona { position: relative; flex: none; width: 34px; height: 34px; display: grid; place-items: center; }
+.cz-btn-ikona svg { width: 34px; height: 34px; display: block; }
+.cz-btn-ikona::after {           /* „w sieci” — z ciemną obwódką, żeby nie zlewała się z tłem */
+  content: ''; position: absolute; top: -2px; right: -3px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--cz-online); box-shadow: 0 0 0 2.5px var(--cz-ciemny);
+}
+.cz-btn-txt { display: flex; flex-direction: column; line-height: 1.15; }
+.cz-btn-txt b { font-family: var(--font-disp, inherit); font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+.cz-btn-txt small { font-size: .75rem; font-weight: 600; opacity: .72; }
+.cz-znaczek { position: absolute; top: -6px; right: -4px; min-width: 22px; height: 22px; padding: 0 6px;
+  border-radius: 11px; background: #ff4d4f; color: #fff; font: 700 .78rem/22px var(--font, sans-serif);
+  text-align: center; box-shadow: 0 0 0 2.5px var(--bg, #0a0d12); }
+.cz-znaczek[hidden] { display: none; }
+@keyframes cz-puls {
+  0% { box-shadow: 0 16px 36px -12px rgba(20,180,220,.65), inset 0 1px 0 rgba(255,255,255,.35), 0 0 0 0 rgba(42,240,200,.45); }
+  70%, 100% { box-shadow: 0 16px 36px -12px rgba(20,180,220,.65), inset 0 1px 0 rgba(255,255,255,.35), 0 0 0 14px rgba(42,240,200,0); }
+}
+
+/* ---------- awatar asystenta (nagłówek okna i zaproszenie) ---------- */
+.cz-awatar { position: relative; flex: none; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--cz-grad); display: grid; place-items: center; }
+.cz-awatar svg { width: 23px; height: 23px; display: block; }
+.cz-awatar::after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 11px; height: 11px;
+  border-radius: 50%; background: var(--cz-online); box-shadow: 0 0 0 2.5px var(--cz-glowa); }
+.cz-awatar-maly { width: 24px; height: 24px; }
+.cz-awatar-maly svg { width: 14px; height: 14px; }
+.cz-awatar-maly::after { width: 8px; height: 8px; right: -2px; bottom: -2px; box-shadow: 0 0 0 2px var(--cz-glowa); }
+
+/* ---------- zaproszenie po 10 s ---------- */
+.cz-zapr { position: fixed; right: 24px; bottom: 100px; z-index: 70; width: min(310px, calc(100vw - 32px));
+  animation: cz-wjazd .4s var(--ease, ease) both; }
+.cz-zapr[hidden] { display: none; }
+.cz-zapr-tresc { display: flex; flex-direction: column; gap: .5rem; width: 100%; text-align: left; cursor: pointer;
+  padding: .9rem 2.3rem 1rem 1rem; border-radius: 18px 18px 6px 18px;
+  background: var(--cz-glowa); color: var(--cz-tekst); border: 1px solid var(--cz-linia);
+  box-shadow: 0 22px 48px -14px rgba(0,0,0,.75), 0 0 0 1px rgba(42,240,200,.08);
+  font: 400 .97rem/1.45 var(--font, system-ui, sans-serif); transition: border-color .2s; }
+.cz-zapr-tresc:hover { border-color: var(--cz-a1); }
+.cz-zapr-glowa { display: flex; align-items: center; gap: .55rem; font-size: .8rem; font-weight: 600; color: var(--cz-dim); }
+.cz-zapr-tekst { min-height: 1.45em; font-weight: 500; }
+.cz-zapr-tekst .cz-pisze { padding: .35rem 0; background: none; border: 0; }
+.cz-zapr-x { position: absolute; top: .5rem; right: .5rem; z-index: 1; background: none; border: 0; padding: .3rem;
+  color: var(--cz-mut); cursor: pointer; border-radius: 8px; }
+.cz-zapr-x:hover { color: var(--cz-tekst); background: rgba(255,255,255,.06); }
+.cz-zapr-x svg { width: 16px; height: 16px; display: block; }
+@keyframes cz-wjazd { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+
+/* ---------- okno ---------- */
+.cz-okno {
+  position: fixed; right: 24px; bottom: 100px; z-index: 71;
+  width: min(390px, calc(100vw - 32px)); height: min(580px, calc(100vh - 130px));
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--cz-okno); color: var(--cz-tekst);
+  border: 1px solid var(--cz-linia); border-radius: 20px;
+  box-shadow: 0 30px 70px -18px rgba(0,0,0,.8), 0 0 0 1px rgba(42,240,200,.06);
+  font-size: .95rem; line-height: 1.45;
+  animation: cz-wjazd .3s var(--ease, ease) both;
+}
+.cz-okno[hidden] { display: none; }
+
+.cz-glowa { display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  padding: .9rem .9rem .9rem 1rem; background: var(--cz-glowa); border-bottom: 1px solid var(--cz-linia); }
+.cz-tytul { display: flex; align-items: center; gap: .75rem; flex: 1; min-width: 0; }
+.cz-tytul > div { min-width: 0; }
+.cz-tytul b { font-family: var(--font-disp, inherit); font-size: 1.02rem; font-weight: 700; color: #fff; }
+.cz-marka { color: var(--cz-dim); font-weight: 500; }
+.cz-pod { font-size: .8rem; color: var(--cz-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cz-x { background: none; border: 0; color: var(--cz-dim); cursor: pointer; padding: .35rem; border-radius: 10px; }
+.cz-x:hover { color: #fff; background: rgba(255,255,255,.07); }
+.cz-x svg { width: 22px; height: 22px; display: block; }
+.cz-akcje { display: flex; align-items: center; gap: .15rem; }
+.cz-x[hidden] { display: none; }
+.cz-x:disabled { opacity: .4; cursor: default; }
+.cz-nowa svg { width: 20px; height: 20px; }
+
+/* pytanie „zacząć nową rozmowę?” pod nagłówkiem */
+.cz-pytanie { display: flex; align-items: center; gap: .5rem; padding: .6rem 1rem;
+  background: rgba(42,240,200,.08); border-bottom: 1px solid var(--cz-linia); font-size: .88rem; color: var(--cz-tekst); }
+.cz-pytanie[hidden] { display: none; }
+.cz-pytanie span { flex: 1; font-weight: 500; }
+.cz-pytanie button { border: 0; border-radius: 999px; padding: .4rem .9rem; font: 600 .82rem/1 var(--font, sans-serif); cursor: pointer; }
+.cz-tak { background: var(--cz-grad); color: var(--cz-ciemny); }
+.cz-anuluj { background: transparent; color: var(--cz-dim); box-shadow: inset 0 0 0 1px var(--cz-linia); }
+.cz-anuluj:hover { color: var(--cz-tekst); }
+
+.cz-skroty { display: flex; gap: .5rem; padding: .65rem 1rem; background: var(--cz-glowa); border-bottom: 1px solid var(--cz-linia); }
+.cz-skrot { flex: 1; display: flex; align-items: center; justify-content: center; gap: .4rem;
+  padding: .5rem .7rem; border-radius: 10px; font-size: .85rem; font-weight: 600; text-decoration: none; white-space: nowrap;
+  color: var(--cz-a1); background: rgba(42,240,200,.08); border: 1px solid rgba(42,240,200,.3); transition: background .2s; }
+.cz-skrot:hover { background: rgba(42,240,200,.16); }
+.cz-skrot svg { width: 16px; height: 16px; flex: none; }
+.cz-skrot.cz-wa { flex: 0 0 auto; color: #25d366; background: rgba(37,211,102,.1); border-color: rgba(37,211,102,.35); }
+.cz-skrot.cz-wa:hover { background: rgba(37,211,102,.18); }
+
+.cz-lista { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .6rem;
+  overscroll-behavior: contain; background: var(--cz-okno); }
+.cz-msg { max-width: 84%; padding: .65rem .9rem; border-radius: 18px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.cz-bot { align-self: flex-start; background: var(--cz-dymek); color: var(--cz-tekst); border-bottom-left-radius: 6px; }
+.cz-ja { align-self: flex-end; background: var(--cz-grad); color: var(--cz-ciemny); font-weight: 500;
+  border-bottom-right-radius: 6px; }
+
+.cz-pisze { display: flex; gap: 5px; padding: .85rem 1rem; }
+.cz-pisze i { width: 7px; height: 7px; border-radius: 50%; background: var(--cz-dim);
+  animation: cz-kropki 1.2s infinite ease-in-out; }
+.cz-pisze i:nth-child(2) { animation-delay: .15s; }
+.cz-pisze i:nth-child(3) { animation-delay: .3s; }
+@keyframes cz-kropki { 0%, 80%, 100% { opacity: .35; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+
+.cz-awaria p { margin: 0 0 .55rem; }
+.cz-awaria form { display: flex; gap: .4rem; margin-bottom: .55rem; }
+.cz-awaria input { flex: 1; min-width: 0; padding: .55rem .65rem; border-radius: 10px; border: 1px solid var(--cz-linia);
+  background: var(--cz-okno); color: inherit; font: inherit; font-size: 16px; }
+.cz-awaria input:focus { outline: none; border-color: var(--cz-a1); }
+.cz-awaria button { padding: .55rem .9rem; border: 0; border-radius: 10px; background: var(--cz-grad);
+  color: var(--cz-ciemny); font-weight: 700; cursor: pointer; }
+.cz-awaria a, .cz-stopka a { color: var(--cz-a1); }
+.cz-awaria-alt { font-size: .85rem; color: var(--cz-dim); margin: 0 !important; }
+
+.cz-pole { display: flex; align-items: flex-end; gap: .55rem; padding: .75rem .85rem .6rem;
+  background: var(--cz-glowa); border-top: 1px solid var(--cz-linia); }
+.cz-pole textarea { flex: 1; resize: none; max-height: 120px; padding: .65rem .85rem; border-radius: 14px;
+  border: 1px solid var(--cz-linia); background: var(--cz-okno); color: var(--cz-tekst);
+  font: inherit; font-size: 16px; line-height: 1.35; transition: border-color .2s, box-shadow .2s; }
+.cz-pole textarea::placeholder { color: var(--cz-mut); }
+.cz-pole textarea:focus { outline: none; border-color: var(--cz-a1); box-shadow: 0 0 0 3px rgba(42,240,200,.15); }
+.cz-wyslij { flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%; cursor: pointer;
+  background: var(--cz-grad); color: var(--cz-ciemny); display: grid; place-items: center;
+  box-shadow: 0 8px 20px -8px rgba(20,180,220,.7); }
+.cz-wyslij:disabled, .cz-pole textarea:disabled { opacity: .5; cursor: default; }
+.cz-wyslij svg { width: 20px; height: 20px; margin-left: 2px; }
+
+.cz-stopka { padding: 0 1rem .7rem; background: var(--cz-glowa); font-size: .72rem; color: var(--cz-mut); }
+
+/* ---------- telefon: okrągły przycisk w rogu, okno na cały ekran ---------- */
+@media (max-width: 760px) {
+  .cz-btn { right: 16px; bottom: 16px; width: 62px; height: 62px; padding: 0; justify-content: center; }
+  .cz-btn-ikona svg { width: 32px; height: 32px; }
+  .cz-btn-ikona::after { top: auto; right: -12px; bottom: -12px; width: 14px; height: 14px;
+    box-shadow: 0 0 0 3px var(--bg, #0a0d12); }
+  .cz-btn-txt { display: none; }
+  .cz-zapr { right: 16px; bottom: 92px; }
+  .cz-okno { inset: 0; width: 100%; height: 100%; height: 100dvh; border-radius: 0; border: 0; animation: none; }
+  .cz-otwarty .cz-btn, .cz-otwarty .cz-zapr { display: none; }
+  .cz-glowa { padding-top: max(.9rem, env(safe-area-inset-top)); }
+  .cz-stopka { padding-bottom: max(.7rem, env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cz-btn, .cz-pisze i, .cz-zapr, .cz-okno { transition: none; animation: none; }
+}

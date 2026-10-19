@@ -287,7 +287,6 @@ section { position: relative; }
 .foot-bottom { margin-top: 2rem; padding-top: 1.3rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; color: var(--text-mut); font-size: .85rem; }
 
 /* ---------- Sticky mobile WA ---------- */
-.sticky-wa { display: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -300,16 +299,7 @@ section { position: relative; }
   .head-cta .btn-wa { padding: .7rem 1rem; }
   .hero::after { background: linear-gradient(0deg, var(--bg) 8%, rgba(10,13,18,.66) 60%, rgba(10,13,18,.48) 100%); }
   .hero-video { object-position: 12% center; }
-  .sticky-wa {
-    display: flex; position: fixed; bottom: 18px; right: 18px; z-index: 60;
-    width: 60px; height: 60px; border-radius: 50%;
-    background: var(--wa); color: #04160b; align-items: center; justify-content: center;
-    box-shadow: 0 10px 30px -6px rgba(37,211,102,.7);
-    animation: wa-pulse 2.6s infinite;
-  }
-  .sticky-wa svg { width: 30px; height: 30px; }
 }
-@keyframes wa-pulse { 0%,100%{ box-shadow: 0 10px 30px -6px rgba(37,211,102,.7);} 50%{ box-shadow: 0 10px 30px -6px rgba(37,211,102,.9), 0 0 0 8px rgba(37,211,102,.08);} }
 
 /* mobile nav drawer */
 .mnav { position: fixed; inset: 0; z-index: 100; background: rgba(10,13,18,.97); backdrop-filter: blur(8px); display: none; flex-direction: column; padding: 5rem 2rem 2rem; gap: .5rem; }

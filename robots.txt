@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://elektroden.pl/sitemap.xml
+Sitemap: https://elektroden.pl/realizacje/sitemap.xml
