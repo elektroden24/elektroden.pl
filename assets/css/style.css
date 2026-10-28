@@ -475,3 +475,6 @@ section { position: relative; }
 .field .hint { display: block; margin-top: .4rem; font-size: .8rem; color: var(--text-mut); }
 .svc-also { margin-top: 1.6rem; text-align: center; color: var(--text-dim); font-size: .95rem; line-height: 2; }
 .svc-also a { color: var(--acc); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.pref-src { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1rem; padding: .55rem .9rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); color: var(--text-dim); font-size: .88rem; line-height: 1.3; transition: all .2s; }
+.pref-src:hover { color: var(--acc); border-color: var(--acc); }
+.pref-src svg { width: 18px; height: 18px; flex: none; }
