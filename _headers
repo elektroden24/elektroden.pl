@@ -1,0 +1,5 @@
+# Nagłówki bezpieczeństwa (Cloudflare Pages). nosniff i Referrer-Policy Cloudflare dodaje sam.
+# HSTS bez includeSubDomains i bez preload — subdomeny (n8n, baza, kontakty) mają własne nagłówki w Caddy.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Frame-Options: SAMEORIGIN
